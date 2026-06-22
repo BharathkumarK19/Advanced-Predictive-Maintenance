@@ -221,7 +221,7 @@ data/raw/
 data/processed/
 
 # Models
-*.pkl
+#*.pkl
 *.joblib
 *.pt
 *.h5
