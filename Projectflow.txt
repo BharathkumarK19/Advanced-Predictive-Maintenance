@@ -248,3 +248,11 @@ GKE Deployment
 Prometheus
         ↓
 Grafana
+
+------------------------------
+DATA_DIR = f:\Projects\Advanced-Predictive-Maintenance\data\raw
+errors = pd.read_csv(DATA_DIR / "PdM_errors.csv")
+telemetry = pd.read_csv(DATA_DIR / "PdM_telemetry.csv")
+machines = pd.read_csv(DATA_DIR / "PdM_machines.csv")
+maint = pd.read_csv(DATA_DIR / "PdM_maint.csv")
+failures = pd.read_csv(DATA_DIR / "PdM_failures.csv")
