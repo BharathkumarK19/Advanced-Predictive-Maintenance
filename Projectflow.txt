@@ -162,3 +162,89 @@ Delete:
 GKE cluster
 
 👉 Save credits 💸
+------------------------------------------------------------------------
+Start:
+
+PHASE 1 — Production Pipeline
+File 1
+src/preprocessing.py
+
+Contains:
+
+load telemetry
+load machines
+clean data
+merge datasets
+File 2
+src/feature_engineering.py
+
+Contains:
+
+rolling features
+lag features
+change features
+pct-change features
+File 3
+src/train.py
+
+Contains:
+
+scaling
+Isolation Forest
+save model
+save scaler
+File 4
+src/evaluate.py
+
+Contains:
+
+anomaly generation
+alert validation
+detection rate calculation
+File 5
+configs/config.yaml
+
+Contains:
+
+contamination: 0.01
+rolling_window: 24
+n_estimators: 100
+File 6
+main.py
+
+Pipeline:
+
+Load Data
+     ↓
+Preprocessing
+     ↓
+Feature Engineering
+     ↓
+Train
+     ↓
+Evaluate
+     ↓
+Save Model
+My Recommendation
+
+Before writing any MLOps code, create this architecture:
+
+Notebook (Completed)
+        ↓
+Python Scripts
+        ↓
+MLflow
+        ↓
+DVC
+        ↓
+FastAPI
+        ↓
+Docker
+        ↓
+GCP Artifact Registry
+        ↓
+GKE Deployment
+        ↓
+Prometheus
+        ↓
+Grafana
