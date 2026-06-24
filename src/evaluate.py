@@ -190,6 +190,55 @@ def component_detection_rate(
     return pd.DataFrame(
         results
     )
+def calculate_alert_precision(
+    predictions_df,
+    failures_df,
+    alert_window_hours=24
+):
+
+    alerts = predictions_df[
+        predictions_df["anomaly_label"] == -1
+    ]
+
+    useful_alerts = 0
+
+    for _, alert in alerts.iterrows():
+
+        machine_id = alert["machineID"]
+
+        alert_time = alert["datetime"]
+
+        future_failures = failures_df[
+            (failures_df["machineID"] == machine_id)
+            &
+            (
+                failures_df["datetime"] > alert_time
+            )
+            &
+            (
+                failures_df["datetime"]
+                <= alert_time +
+                pd.Timedelta(
+                    hours=alert_window_hours
+                )
+            )
+        ]
+
+        if len(future_failures) > 0:
+            useful_alerts += 1
+
+    precision = (
+        useful_alerts
+        /
+        len(alerts)
+        * 100
+    )
+
+    return {
+        "total_alerts": len(alerts),
+        "useful_alerts": useful_alerts,
+        "precision": round(precision, 2)
+    }
 
 
 if __name__ == "__main__":
@@ -220,7 +269,7 @@ if __name__ == "__main__":
 
     print("Loading Data...")
 
-    telemetry, machines = load_data(
+    telemetry, machines, errors = load_data(
         "data/PdM_telemetry.csv",
         "data/PdM_machines.csv"
     )
@@ -235,7 +284,8 @@ if __name__ == "__main__":
 
     master_df = preprocess_data(
         telemetry,
-        machines
+        machines,
+        errors
     )
 
     feature_df = prepare_features(

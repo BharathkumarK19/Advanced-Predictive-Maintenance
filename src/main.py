@@ -39,7 +39,8 @@ try:
     )
     from src.evaluate import (
         calculate_detection_metrics,
-        component_detection_rate
+        component_detection_rate,
+        calculate_alert_precision
     )
 except ModuleNotFoundError:
     from config import load_config
@@ -74,9 +75,10 @@ def main():
         "Loading Data"
     )
 
-    telemetry, machines = load_data(
+    telemetry, machines,errors = load_data(
         config["data"]["telemetry_path"],
-        config["data"]["machines_path"]
+        config["data"]["machines_path"] ,
+        config["data"]["errors_path"]
     )
 
     failures = pd.read_csv(
@@ -93,8 +95,14 @@ def main():
 
     master_df = preprocess_data(
         telemetry,
-        machines
+        machines, errors
     )
+    print("\nError Flag Distribution")
+
+    print(
+    master_df["error_flag"]
+    .value_counts()
+)
 
     logger.info(
         "Creating Features"
@@ -103,25 +111,44 @@ def main():
     feature_df = prepare_features(
         master_df
     )
+    split_date = "2015-09-01"
 
+    train_df = feature_df[
+    feature_df["datetime"] < split_date
+    ].copy()
+
+    test_df = feature_df[
+    feature_df["datetime"] >= split_date
+    ].copy()
+
+    print("\nTrain Size:", len(train_df))
+    print("Test Size:", len(test_df))
+    test_failures = failures[
+    failures["datetime"] >= split_date
+    ].copy()
+
+    print(
+    "Test Failures:",
+    len(test_failures)
+     )
     logger.info(
         "Preparing Training Data"
     )
 
-    X = prepare_training_data(
-        feature_df
+    X_train = prepare_training_data(
+        train_df
     )
 
-    X_scaled, scaler = scale_features(
-        X
-    )
+    X_train_scaled, scaler = scale_features(
+    X_train
+      )
 
     logger.info(
         "Training Model"
     )
 
     model = train_model(
-        X_scaled,
+        X_train_scaled,
         contamination=config["model"]["contamination"],
         n_estimators=config["model"]["n_estimators"],
         random_state=config["model"]["random_state"]
@@ -130,20 +157,30 @@ def main():
     logger.info(
         "Generating Predictions"
     )
-
-    feature_df = generate_predictions(
+    X_test = prepare_training_data(
+    test_df
+     )
+    X_test_scaled = scaler.transform(
+    X_test
+ )
+    test_df = generate_predictions(
         model,
-        X_scaled,
-        feature_df
+        X_test_scaled,
+        test_df
     )
+    print("\nAlert Distribution")
 
+    print(
+    test_df["anomaly_label"]
+    .value_counts()
+    )
     logger.info(
         "Evaluating Model"
     )
 
     metrics = calculate_detection_metrics(
-        feature_df,
-        failures,
+        test_df,
+        test_failures,
         alert_window_hours=config["evaluation"]["alert_window_hours"]
     )
 
@@ -155,15 +192,23 @@ def main():
 
     component_results = (
         component_detection_rate(
-            feature_df,
-            failures
+            test_df,
+            test_failures,
         )
     )
 
     print("\nComponent Results")
 
     print(component_results)
+    alert_metrics = calculate_alert_precision(
+    test_df,
+    test_failures
+)
 
+    print("\nAlert Quality")
+
+    for k, v in alert_metrics.items():
+      print(f"{k}: {v}")
     logger.info(
         f"Detection Rate = {metrics['detection_rate']}"
     )
@@ -173,11 +218,11 @@ def main():
     )
 
     save_artifacts(
-        model,
-        scaler,
-        X.columns.tolist(),
-        save_dir=PROJECT_ROOT / "models"
-    )
+    model,
+    scaler,
+    X_train.columns.tolist(),
+    save_dir=PROJECT_ROOT / "models"
+)
 
     logger.info(
         "Pipeline Complete"

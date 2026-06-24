@@ -125,14 +125,15 @@ if __name__ == "__main__":
 
     print("Loading Data...")
 
-    telemetry, machines = load_data(
+    telemetry, machines, errors = load_data(
         "data/PdM_telemetry.csv",
         "data/PdM_machines.csv"
     )
 
     master_df = preprocess_data(
         telemetry,
-        machines
+        machines,
+        errors
     )
 
     print("Creating Features...")
@@ -160,7 +161,10 @@ if __name__ == "__main__":
     print("Training Isolation Forest...")
 
     model = train_model(
-        X_scaled
+        X_scaled,
+        contamination=0.03,
+        n_estimators=100,
+        random_state=42
     )
 
     print("Generating Predictions...")

@@ -79,6 +79,52 @@ def create_change_features(df):
 
     return df
 
+def create_zscore_features(df):
+
+    sensors = [
+        "volt",
+        "rotate",
+        "pressure",
+        "vibration"
+    ]
+
+    for sensor in sensors:
+
+        df[f"{sensor}_zscore"] = (
+            (
+                df[sensor]
+                -
+                df[f"{sensor}_mean_24h"]
+            )
+            /
+            (
+                df[f"{sensor}_std_24h"]
+                + 1e-6
+            )
+        )
+
+    return df
+
+def create_trend_features(df):
+
+    sensors = [
+        "volt",
+        "rotate",
+        "pressure",
+        "vibration"
+    ]
+
+    for sensor in sensors:
+
+        df[f"{sensor}_trend"] = (
+            df[f"{sensor}_mean_24h"]
+            -
+            df.groupby("machineID")[
+                f"{sensor}_mean_24h"
+            ].shift(24)
+        )
+
+    return df
 
 def encode_machine_model(df):
     """
@@ -93,6 +139,19 @@ def encode_machine_model(df):
 
     return df
 
+def create_error_features(df):
+
+    df["error_count_24h"] = (
+        df.groupby("machineID")["error_flag"]
+        .transform(
+            lambda x: x.rolling(
+                window=24,
+                min_periods=1
+            ).sum()
+        )
+    )
+
+    return df
 
 def clean_feature_data(df):
     """
@@ -125,13 +184,18 @@ def prepare_features(df):
 
     print("Creating change features...")
     df = create_change_features(df)
-
+    print("Creating z-score features...")
+    df = create_zscore_features(df)
+    print("Creating trend features...")
+    df = create_trend_features(df)
+    
     print("Encoding model column...")
     df = encode_machine_model(df)
-
+    print("Creating error features...")
+    df = create_error_features(df)
     print("Cleaning engineered features...")
     df = clean_feature_data(df)
-
+    
     return df
 
 
@@ -142,14 +206,15 @@ if __name__ == "__main__":
         preprocess_data
     )
 
-    telemetry, machines = load_data(
+    telemetry, machines, errors = load_data(
         "../data/PdM_telemetry.csv",
         "../data/PdM_machines.csv"
     )
 
     master_df = preprocess_data(
         telemetry,
-        machines
+        machines,
+        errors
     )
 
     feature_df = prepare_features(

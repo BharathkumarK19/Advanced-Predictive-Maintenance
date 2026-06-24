@@ -2,6 +2,7 @@ data:
   telemetry_path: data/PdM_telemetry.csv
   machines_path: data/PdM_machines.csv
   failures_path: data/PdM_failures.csv
+  errors_path: data/raw/PdM_errors.csv
 
 features:
   rolling_window: 24

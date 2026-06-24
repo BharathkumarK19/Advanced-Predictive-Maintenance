@@ -32,17 +32,20 @@ def _resolve_data_path(path: str | Path) -> Path:
 def load_data(
     telemetry_path: str | Path = DATA_DIR / "PdM_telemetry.csv",
     machines_path: str | Path = DATA_DIR / "PdM_machines.csv",
+    errors_path: str | Path = DATA_DIR / "PdM_errors.csv",
 ):
     telemetry_file = _resolve_data_path(telemetry_path)
     machines_file = _resolve_data_path(machines_path)
+    errors_file = _resolve_data_path(errors_path)
 
     telemetry = pd.read_csv(telemetry_file)
     machines = pd.read_csv(machines_file)
+    errors = pd.read_csv(errors_file)
 
-    return telemetry, machines
+    return telemetry, machines, errors
 
 
-def preprocess_data(telemetry, machines):
+def preprocess_data(telemetry, machines, errors=None):
     telemetry = telemetry.copy()
     machines = machines.copy()
 
@@ -54,6 +57,35 @@ def preprocess_data(telemetry, machines):
         how="left",
     )
 
-    master_df = master_df.sort_values(["machineID", "datetime"]).reset_index(drop=True)
+    if errors is not None:
+        errors = errors.copy()
+        errors["datetime"] = pd.to_datetime(errors["datetime"])
+
+        # Collapse error rows down to one flag per machine/timestamp so the
+        # telemetry grain stays one row per observation.
+        error_events = (
+            errors[["datetime", "machineID"]]
+            .drop_duplicates()
+            .assign(error_flag=1)
+        )
+
+        master_df = master_df.merge(
+            error_events,
+            on=["datetime", "machineID"],
+            how="left",
+        )
+
+        master_df["error_flag"] = (
+            master_df["error_flag"]
+            .fillna(0)
+            .astype(int)
+        )
+    else:
+        master_df["error_flag"] = 0
+
+    master_df = (
+        master_df.sort_values(["machineID", "datetime"])
+        .reset_index(drop=True)
+    )
 
     return master_df

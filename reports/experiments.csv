@@ -4,3 +4,4 @@ Experiment,Features,Contamination,DetectionRate,LeadTime
 Baseline,Current,0.01,44.68,7.41
 Exp-1,Current,0.02,61.50,6.93
 EXP-2,Current,0.03,74.11%,6.69 hrs
+Exp-3,+ZScore+Trend,0.03,91.98,7.90
