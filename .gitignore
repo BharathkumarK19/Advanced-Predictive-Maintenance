@@ -228,3 +228,4 @@ data/processed/
 
 # Jupyter
 .ipynb_checkpoints/
+.env
