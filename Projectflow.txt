@@ -258,3 +258,7 @@ maint = pd.read_csv(DATA_DIR / "PdM_maint.csv")
 failures = pd.read_csv(DATA_DIR / "PdM_failures.csv")
 -----------------------------------------------
 Developed an Industrial IoT Predictive Maintenance Platform using Isolation Forest, time-series feature engineering, and error-log analytics. Achieved 95.4% failure detection on unseen future data, generated alerts on only 2.99% of records, achieved 26.5% alert precision, and provided an average 5-hour early warning lead time before equipment failures.
+----------------------------------------
+steps to test fastapi 
+uvicorn api.app:app --reload
+http://127.0.0.1:8000/docs
