@@ -4,6 +4,7 @@ from api.predictor import predictor
 from api.routers.predict import router as predict_router
 from api.routers.health import router as health_router
 from api.routers.history import router as history_router
+from src.logger import get_logger
 
 app = FastAPI(
     title="Advanced Predictive Maintenance API",
@@ -11,10 +12,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
+logger = get_logger()
+
 
 @app.on_event("startup")
 def startup():
     predictor.load()
+    logger.info("Predictor loaded successfully.")
 
 
 app.include_router(health_router)

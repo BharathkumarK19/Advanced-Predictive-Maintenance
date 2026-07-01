@@ -4,6 +4,8 @@ import os
 
 def get_logger():
 
+    log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+
     os.makedirs(
         "logs",
         exist_ok=True
@@ -11,7 +13,7 @@ def get_logger():
 
     logging.basicConfig(
         filename="logs/pipeline.log",
-        level=logging.INFO,
+        level=getattr(logging, log_level, logging.INFO),
         format="%(asctime)s - %(levelname)s - %(message)s"
     )
 
