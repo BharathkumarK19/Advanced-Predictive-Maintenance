@@ -2,7 +2,10 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-
+from api.metrics import (
+    PREDICTION_COUNT,
+    ANOMALY_COUNT
+)
 from api.history import history_manager
 from api.services.feature_service import feature_service
 from src.logger import get_logger
@@ -170,6 +173,9 @@ class Predictor:
         anomaly_label = int(
             self.model.predict(X_scaled)[0]
         )
+        PREDICTION_COUNT.inc()
+        if anomaly_label == -1:
+           ANOMALY_COUNT.inc()
 
         anomaly_score = float(
             self.model.decision_function(X_scaled)[0]

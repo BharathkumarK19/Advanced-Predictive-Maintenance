@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "predictive-api"
+
+    static_configs:
+      - targets:
+          - predictive-api-service.predictive-maintenance.svc.cluster.local:8000

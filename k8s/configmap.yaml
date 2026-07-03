@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: predictive-config
+  namespace: predictive-maintenance
+
+data:
+  MODEL_DIR: "/app/models"
+  LOG_LEVEL: "INFO"
+  APP_ENV: "production"

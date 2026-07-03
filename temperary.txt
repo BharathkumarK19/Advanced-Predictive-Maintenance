@@ -1,0 +1,26 @@
+Remaining Roadmap
+
+Here's what I recommend for the remainder of the project:
+
+Phase	Module	Status
+Phase 4	Dockerization	🔜 Next
+Phase 5	CI/CD (GitHub Actions)	Pending
+Phase 6	Kubernetes (GKE)	Pending
+Phase 7	Monitoring (Prometheus + Grafana)	Pending
+Phase 8	Azure IoT Integration	Pending
+Phase 9	Documentation & Resume	Final
+----------------------------------------
+{
+  "machineID": 1,
+  "volt": 190,
+  "rotate": 430,
+  "pressure": 115,
+  "vibration": 48,
+  "age": 18,
+  "model": "model3",
+  "error_flag": 0
+}
+-------
+Docker image 
+advanced-predictive-maintenance-predictive-api
+-----  minikube service predictive-api-service -n predictive-maintenance --url

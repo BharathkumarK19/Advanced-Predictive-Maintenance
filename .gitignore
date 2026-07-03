@@ -230,3 +230,19 @@ data/processed/
 .ipynb_checkpoints/
 .env
 models/.
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# VS Code
+.vscode/
+
+# Logs
+logs/*.log
+
+# Environment
+.env
+
+# Notebook checkpoints
+.ipynb_checkpoints/
