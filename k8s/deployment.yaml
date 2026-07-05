@@ -21,7 +21,7 @@ spec:
       containers:
       - name: predictive-api
 
-        image: advanced-predictive-maintenance-predictive-api:v3
+        image: advanced-predictive-maintenance-predictive-api:v5
 
         imagePullPolicy: Never
 

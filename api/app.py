@@ -51,8 +51,21 @@ logger = get_logger()
 
 @app.on_event("startup")
 def startup():
+
+    logger.info("=" * 60)
+    logger.info("Starting Predictive Maintenance API")
+
     predictor.load()
-    logger.info("Predictor loaded successfully.")
+
+    logger.info("Prediction model loaded successfully.")
+    logger.info("API startup completed.")
+    logger.info("=" * 60)
+
+
+@app.on_event("shutdown")
+def shutdown():
+
+    logger.info("Predictive Maintenance API stopped.")
 
 
 app.include_router(health_router)

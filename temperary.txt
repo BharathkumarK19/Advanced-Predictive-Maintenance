@@ -20,7 +20,107 @@ Phase 9	Documentation & Resume	Final
   "model": "model3",
   "error_flag": 0
 }
+Status: Almost Complete
+
+Remaining in Phase 4:
+
+⬜ Grafana Dashboards
+🚀 Phase 5 — Production MLOps
+
+This is the deployment and DevOps phase.
+
+5.1 Grafana
+Install Grafana
+Connect Prometheus
+Build dashboards
+Alert panels
+5.2 GitHub Actions (CI/CD)
+
+Automatically:
+
+Push Code
+      │
+      ▼
+GitHub Actions
+      │
+      ▼
+Run Tests
+      │
+      ▼
+Build Docker Image
+      │
+      ▼
+Push Docker Image
+      │
+      ▼
+Deploy Kubernetes
+5.3 Docker Hub
+
+Instead of local images:
+
+Local
+   ↓
+Docker Hub
+   ↓
+Kubernetes
+
+This is how production clusters pull images.
+
+5.4 Kubernetes Production Deployment
+
+We'll improve your deployment with:
+
+Rolling updates
+Versioned images
+Rollback support
+Resource limits
+Autoscaling (HPA)
+5.5 Google Kubernetes Engine (GKE)
+
+Deploy everything to Google Cloud.
+
+You'll have:
+
+Internet
+      │
+      ▼
+Load Balancer
+      │
+      ▼
+Google Kubernetes Engine
+      │
+      ├──────────────┐
+      ▼              ▼
+Prediction Pod    Prediction Pod
+      │              │
+      └──────────────┘
+              │
+              ▼
+Prometheus
+      │
+      ▼
+Grafana
+🎨 Phase 6 — React Frontend (New)
 -------
 Docker image 
 advanced-predictive-maintenance-predictive-api
 -----  minikube service predictive-api-service -n predictive-maintenance --url
+
+1..200 | ForEach-Object {
+    Invoke-RestMethod `
+        -Uri "http://127.0.0.1:61829//predict" `
+        -Method POST `
+        -ContentType "application/json" `
+        -Body '{
+            "machineID": 1,
+            "volt": 170,
+            "rotate": 450,
+            "pressure": 100,
+            "vibration": 45,
+            "model": "model1",
+            "age": 10,
+            "error_flag": 0
+        }' | Out-Null
+}
+minikube service prometheus-service -n predictive-maintenance --url
+minikube service grafana-service -n predictive-maintenance --url
