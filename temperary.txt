@@ -106,21 +106,20 @@ Docker image
 advanced-predictive-maintenance-predictive-api
 -----  minikube service predictive-api-service -n predictive-maintenance --url
 
-1..200 | ForEach-Object {
-    Invoke-RestMethod `
-        -Uri "http://127.0.0.1:61829//predict" `
-        -Method POST `
-        -ContentType "application/json" `
-        -Body '{
-            "machineID": 1,
-            "volt": 170,
-            "rotate": 450,
-            "pressure": 100,
-            "vibration": 45,
-            "model": "model1",
-            "age": 10,
-            "error_flag": 0
-        }' | Out-Null
-}
+Invoke-RestMethod `
+-Uri http://127.0.0.1:63721/predict `
+-Method POST `
+-ContentType "application/json" `
+-Body '{
+    "machineID":1,
+    "volt":170,
+    "rotate":450,
+    "pressure":100,
+    "vibration":45,
+    "model":"model1",
+    "age":10,
+    "error_flag":0
+}'
 minikube service prometheus-service -n predictive-maintenance --url
 minikube service grafana-service -n predictive-maintenance --url
+GHCR token = 

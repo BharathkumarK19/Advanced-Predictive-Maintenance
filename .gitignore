@@ -246,3 +246,5 @@ logs/*.log
 
 # Notebook checkpoints
 .ipynb_checkpoints/
+temporary.txt
+Projectflow.txt
