@@ -34,7 +34,7 @@ jobs:
           file: deployment/docker/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/advanced-predictive-maintenance-predictive-api:latest
-            ghcr.io/${{ github.repository_owner }}/advanced-predictive-maintenance-predictive-api:${{ github.sha }}
+            ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:latest
+            ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:${{ github.sha }}
           labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.source=https://github.com/BharathkumarK19/Advanced-Predictive-Maintenance
