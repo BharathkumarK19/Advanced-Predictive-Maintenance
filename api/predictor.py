@@ -40,7 +40,7 @@ class Predictor:
     def predict(self, data: dict):
 
         # --------------------------------------------------
-        # Store incoming reading
+        # Store incoming reading for feature generation
         # --------------------------------------------------
 
         history_manager.add_reading(
@@ -48,7 +48,8 @@ class Predictor:
             data
         )
         logger.info(
-            f"Received reading from Machine {data['machineID']}"
+            "Received reading from Machine %s",
+            data["machineID"],
         )
 
         # --------------------------------------------------

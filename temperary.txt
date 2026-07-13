@@ -123,3 +123,6 @@ Invoke-RestMethod `
 minikube service prometheus-service -n predictive-maintenance --url
 minikube service grafana-service -n predictive-maintenance --url
 GHCR token = 
+
+uvicorn api.app:app --reload
+python simulator/simulator.py

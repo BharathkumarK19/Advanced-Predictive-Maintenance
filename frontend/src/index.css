@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: 15 23 42;
+  --bg-elevated: 15 23 42;
+  --panel: 17 24 39;
+  --panel-soft: 30 41 59;
+  --line: 51 65 85;
+  --text: 226 232 240;
+  --muted: 148 163 184;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.light {
+  color-scheme: light;
+  --bg: 241 245 249;
+  --bg-elevated: 248 250 252;
+  --panel: 255 255 255;
+  --panel-soft: 226 232 240;
+  --line: 203 213 225;
+  --text: 15 23 42;
+  --muted: 71 85 105;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.24), transparent 32%),
+    radial-gradient(circle at top right, rgba(22, 163, 74, 0.12), transparent 26%),
+    rgb(var(--bg));
+  color: rgb(var(--text));
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.3);
+}
+
+.app-shell {
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.24), transparent 24%),
+    rgb(var(--bg));
+}
+
+.card-surface {
+  @apply rounded-2xl border border-slate-700/80 bg-slate-900/90 shadow-lg shadow-slate-950/20 backdrop-blur transition-all duration-200;
+}
+
+.light .card-surface {
+  @apply border-slate-200 bg-white shadow-slate-200/60;
+}
+
+.card-surface:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 30px -12px rgba(15, 23, 42, 0.45);
+}
+
+.surface-muted {
+  @apply rounded-xl border border-slate-700/70 bg-slate-900/70;
+}
+
+.light .surface-muted {
+  @apply border-slate-200 bg-slate-50;
+}
+
+.section-title {
+  @apply text-sm font-semibold uppercase tracking-[0.24em] text-slate-400;
+}
+
+.light .section-title {
+  @apply text-slate-500;
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.09) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 1.8s linear infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 240ms ease-out both;
+}

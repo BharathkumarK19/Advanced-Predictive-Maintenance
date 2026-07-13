@@ -21,9 +21,8 @@ spec:
       containers:
       - name: predictive-api
 
-        image: advanced-predictive-maintenance-predictive-api:v5
-
-        imagePullPolicy: Never
+        image: ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:latest
+        imagePullPolicy: Always
 
         ports:
         - containerPort: 8000

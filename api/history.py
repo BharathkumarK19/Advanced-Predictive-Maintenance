@@ -28,5 +28,21 @@ class HistoryManager:
     def history_length(self, machine_id):
         return len(self.history[machine_id])
 
+    def update_last_reading(self, machine_id, updates):
+        """
+        Merge prediction results into the latest stored reading.
+        """
+
+        if not self.history[machine_id]:
+            return None
+
+        current = self.history[machine_id][-1]
+        merged = {
+            **current,
+            **updates,
+        }
+        self.history[machine_id][-1] = merged
+        return merged
+
 
 history_manager = HistoryManager()

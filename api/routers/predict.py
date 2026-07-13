@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from api.history import history_manager
 from api.predictor import predictor
 from api.schemas import (
     PredictionRequest,
@@ -25,6 +26,11 @@ def predict(request: PredictionRequest):
 
         result = predictor.predict(
             request.model_dump()
+        )
+
+        history_manager.update_last_reading(
+            request.machineID,
+            result,
         )
 
         logger.info(

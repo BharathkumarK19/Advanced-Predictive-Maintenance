@@ -238,8 +238,17 @@ __pycache__/
 # VS Code
 .vscode/
 
+# Node
+frontend/node_modules/
+node_modules/
+
+# Build
+frontend/dist/
+dist/
+
 # Logs
 logs/*.log
+*.log
 
 # Environment
 .env
