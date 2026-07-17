@@ -24,8 +24,7 @@ RUN apt-get update && apt-get install -y \
 # -----------------------------
 # Copy Requirements
 # -----------------------------
-COPY requirements/api.txt .
-
+COPY requirements/ requirements/
 # -----------------------------
 # Install Python Packages
 # -----------------------------
