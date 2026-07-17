@@ -24,12 +24,12 @@ RUN apt-get update && apt-get install -y \
 # -----------------------------
 # Copy Requirements
 # -----------------------------
-COPY requirements.txt .
+COPY requirements/api.txt .
 
 # -----------------------------
 # Install Python Packages
 # -----------------------------
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r api.txt
 
 # -----------------------------
 # Copy Project

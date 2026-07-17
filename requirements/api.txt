@@ -1,0 +1,14 @@
+-r base.txt
+
+fastapi
+uvicorn[standard]
+python-multipart
+
+paho-mqtt
+
+prometheus-client
+
+websockets
+
+openpyxl
+pyarrow

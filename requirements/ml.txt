@@ -1,0 +1,9 @@
+-r base.txt
+
+scikit-learn
+mlflow
+dvc
+dvc-http
+
+matplotlib
+seaborn

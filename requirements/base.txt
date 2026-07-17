@@ -1,0 +1,6 @@
+numpy
+pandas
+PyYAML
+python-dotenv
+requests
+joblib

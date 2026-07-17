@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: predictive-frontend
+  namespace: predictive-maintenance
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: predictive-frontend
+
+  template:
+    metadata:
+      labels:
+        app: predictive-frontend
+
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: frontend
+
+          image: ghcr.io/bharathkumark19/predictive-frontend:latest
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 80
+
+          env:
+            - name: VITE_API_URL
+              value: "http://predictive-backend-service:8000"
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+
+            limits:
+              cpu: "300m"
+              memory: "256Mi"

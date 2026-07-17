@@ -18,10 +18,12 @@ spec:
         app: predictive-api
 
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: predictive-api
 
-        image: ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:latest
+        image: ghcr.io/bharathkumark19/predictive-backend:latest
         imagePullPolicy: Always
 
         ports:
@@ -30,6 +32,8 @@ spec:
         envFrom:
         - configMapRef:
             name: predictive-config
+        - secretRef:
+            name: predictive-secrets
 
         resources:
           requests:

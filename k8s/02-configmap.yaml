@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: predictive-config
+  namespace: predictive-maintenance
+
+data:
+  APP_ENV: "production"
+  LOG_LEVEL: "INFO"
+
+  MODEL_DIR: "/app/models"
+
+  MQTT_BROKER: "YOUR_CLUSTER.s1.eu.hivemq.cloud"
+  MQTT_PORT: "8883"
+  MQTT_TOPIC: "predictive-maintenance/machine-data"
+
+  WS_ENABLED: "true"

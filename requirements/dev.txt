@@ -1,0 +1,8 @@
+-r api.txt
+-r ml.txt
+
+pytest
+black
+flake8
+isort
+pre-commit
