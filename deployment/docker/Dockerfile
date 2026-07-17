@@ -29,7 +29,7 @@ COPY requirements/api.txt .
 # -----------------------------
 # Install Python Packages
 # -----------------------------
-RUN pip install --no-cache-dir -r api.txt
+RUN pip install --no-cache-dir -r requirements/api.txt
 
 # -----------------------------
 # Copy Project
