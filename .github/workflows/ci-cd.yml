@@ -36,6 +36,8 @@ jobs:
           tags: |
             ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:latest
             ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:${{ github.sha }}
+            ghcr.io/bharathkumark19/predictive-backend:latest
+            ghcr.io/bharathkumark19/predictive-backend:${{ github.sha }}
           labels: |
             org.opencontainers.image.source=https://github.com/BharathkumarK19/Advanced-Predictive-Maintenance
 

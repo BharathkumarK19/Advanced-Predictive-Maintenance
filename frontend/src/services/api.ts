@@ -33,16 +33,29 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
-api.interceptors.request.use((config) => {
-  config.headers = {
+export const metricsApi: AxiosInstance = axios.create({
+  timeout: 10000,
+  headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
-    ...(config.headers ?? {}),
-  } as InternalAxiosRequestConfig["headers"];
-  return config;
+  },
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => Promise.reject(createApiError(error)),
-);
+const attachDefaultInterceptors = (client: AxiosInstance) => {
+  client.interceptors.request.use((config) => {
+    config.headers = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      ...(config.headers ?? {}),
+    } as InternalAxiosRequestConfig["headers"];
+    return config;
+  });
+
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => Promise.reject(createApiError(error)),
+  );
+};
+
+attachDefaultInterceptors(api);
+attachDefaultInterceptors(metricsApi);

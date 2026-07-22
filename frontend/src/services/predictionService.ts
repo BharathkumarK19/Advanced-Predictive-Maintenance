@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api, metricsApi } from "./api";
 import type {
   DashboardSummary,
   HealthResponse,
@@ -20,7 +20,7 @@ export const predictionService = {
 
   async getDashboardSummary(machineID = 1): Promise<DashboardSummary> {
     const [metricsResponse, healthResponse, historyResponse] = await Promise.all([
-      api.get<string>("/metrics", { responseType: "text" }),
+      metricsApi.get<string>("/metrics", { responseType: "text" }),
       api.get<HealthResponse>("/health"),
       api.get<{ machineID: number; history_size: number; history: HistoryRecord[] }>(`/history/${machineID}`),
     ]);

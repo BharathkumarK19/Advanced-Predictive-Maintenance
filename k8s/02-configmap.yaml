@@ -11,7 +11,7 @@ data:
 
   MODEL_DIR: "/app/models"
 
-  MQTT_BROKER: "YOUR_CLUSTER.s1.eu.hivemq.cloud"
+  MQTT_BROKER: "6ca1c26ef0cd498b87b7e9d6062bace5.s1.eu.hivemq.cloud"
   MQTT_PORT: "8883"
   MQTT_TOPIC: "predictive-maintenance/machine-data"
 

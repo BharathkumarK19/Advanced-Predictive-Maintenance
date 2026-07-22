@@ -31,11 +31,14 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-    ],
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+    "http://predictive.local",
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -94,9 +97,9 @@ def shutdown():
     mqtt_service.stop()
     logger.info("Predictive Maintenance API stopped.")
 
-app.include_router(health_router)
-app.include_router(predict_router)
-app.include_router(history_router)
+app.include_router(health_router, prefix="/api")
+app.include_router(predict_router, prefix="/api")
+app.include_router(history_router, prefix="/api")
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):

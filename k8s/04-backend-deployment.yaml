@@ -23,7 +23,7 @@ spec:
       containers:
       - name: predictive-api
 
-        image: ghcr.io/bharathkumark19/predictive-backend:latest
+        image: ghcr.io/bharathkumark19/advanced-predictive-maintenance-predictive-api:latest
         imagePullPolicy: Always
 
         ports:
@@ -46,14 +46,14 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /health
+            path: /api/health
             port: 8000
           initialDelaySeconds: 20
           periodSeconds: 10
 
         readinessProbe:
           httpGet:
-            path: /health
+            path: /api/health
             port: 8000
           initialDelaySeconds: 10
           periodSeconds: 5
