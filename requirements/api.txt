@@ -13,3 +13,7 @@ websockets
 
 openpyxl
 pyarrow
+# Database
+sqlalchemy>=2.0
+psycopg[binary]>=3.2
+alembic>=1.14
