@@ -11,6 +11,7 @@ from api.routers.health import router as health_router
 from api.routers.history import router as history_router
 from src.logger import get_logger
 import time
+from src.database.init_db import init_database
 
 from prometheus_client import generate_latest
 from prometheus_client import CONTENT_TYPE_LATEST
@@ -31,14 +32,20 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:4173",
-    "http://127.0.0.1:4173",
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-    "http://predictive.local",
-],
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+
+        "http://localhost:4173",
+        "http://127.0.0.1:4173",
+
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+
+        "http://predictive.local",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -75,6 +82,11 @@ mqtt_service = MQTTService()
 async def startup():
 
     logger.info("=" * 60)
+
+    logger.info("Initializing PostgreSQL...")
+    init_database()
+    logger.info("Database initialized successfully.")
+
     manager.set_event_loop(asyncio.get_running_loop())
     logger.info("Starting Predictive Maintenance API")
 

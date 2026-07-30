@@ -1,5 +1,4 @@
 from pathlib import Path
-
 import joblib
 import pandas as pd
 from api.metrics import (
@@ -9,6 +8,12 @@ from api.metrics import (
 from api.history import history_manager
 from api.services.feature_service import feature_service
 from src.logger import get_logger
+from datetime import datetime
+
+from src.database.session import SessionLocal
+from src.models.machine import Machine
+from src.models.sensor_reading import SensorReading
+from src.models.prediction import Prediction
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_DIR = PROJECT_ROOT / "models"
@@ -38,6 +43,8 @@ class Predictor:
         )
 
     def predict(self, data: dict):
+     try:
+        db = SessionLocal()
 
         # --------------------------------------------------
         # Store incoming reading for feature generation
@@ -51,6 +58,32 @@ class Predictor:
             "Received reading from Machine %s",
             data["machineID"],
         )
+        reading = SensorReading(
+                  machine_id=data["machineID"],
+                  timestamp=datetime.utcnow(),
+                  volt=data["volt"],
+                  rotate=data["rotate"],
+                  pressure=data["pressure"],
+                  vibration=data["vibration"],
+                  error_flag=data["error_flag"]
+              )
+        
+        db.add(reading)
+        machine = (
+          db.query(Machine)
+         .filter(Machine.machine_id == data["machineID"])
+         .first()
+         )
+        
+
+        if machine is None:
+          machine = Machine(
+            machine_id=data["machineID"],
+            model=data["model"],
+            age=data["age"]
+    )
+          db.add(machine)
+          db.flush()
 
         # --------------------------------------------------
         # Retrieve machine history
@@ -209,6 +242,15 @@ class Predictor:
         logger.info(
             f"Risk Level: {risk}"
         )
+        prediction = Prediction(
+            machine_id=data["machineID"],
+            timestamp=datetime.utcnow(),
+            anomaly_score=anomaly_score,
+            anomaly_label=anomaly_label
+           )
+
+        db.add(prediction)
+        db.commit()
 
         return {
 
@@ -221,6 +263,12 @@ class Predictor:
             "risk_level": risk
 
         }
+     except Exception:
+       db.rollback()
+       raise
+
+     finally:
+       db.close()
 
 
 predictor = Predictor()

@@ -24,6 +24,7 @@ const createApiError = (error: unknown): ApiError => {
 
 export const getErrorMessage = (error: unknown) => createApiError(error).message;
 
+// ✅ Main API (/api/*)
 export const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   timeout: 10000,
@@ -33,7 +34,9 @@ export const api: AxiosInstance = axios.create({
   },
 });
 
+// ✅ Metrics API (/metrics)
 export const metricsApi: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL.replace("/api", ""),
   timeout: 10000,
   headers: {
     Accept: "application/json",

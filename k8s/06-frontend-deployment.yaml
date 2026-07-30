@@ -18,18 +18,14 @@ spec:
         app: predictive-frontend
 
     spec:
-      imagePullSecrets:
-        - name: ghcr-secret
       containers:
         - name: frontend
 
-          image: ghcr.io/bharathkumark19/predictive-frontend:latest
-          imagePullPolicy: Always
+          image: predictive-frontend:test
+          imagePullPolicy: Never
 
           ports:
             - containerPort: 80
-
-          
 
           resources:
             requests:
