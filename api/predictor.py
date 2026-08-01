@@ -243,11 +243,12 @@ class Predictor:
             f"Risk Level: {risk}"
         )
         prediction = Prediction(
-            machine_id=data["machineID"],
-            timestamp=datetime.utcnow(),
-            anomaly_score=anomaly_score,
-            anomaly_label=anomaly_label
-           )
+          machine_id=data["machineID"],
+         timestamp=datetime.utcnow(),
+         anomaly_score=anomaly_score,
+         anomaly_label=anomaly_label,
+         risk_level=risk
+)
 
         db.add(prediction)
         db.commit()

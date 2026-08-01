@@ -3,7 +3,8 @@ global:
 
 scrape_configs:
   - job_name: "predictive-api"
+    metrics_path: /metrics
 
     static_configs:
       - targets:
-          - predictive-api-service.predictive-maintenance.svc.cluster.local:8000
+          - predictive-backend-service.predictive-maintenance.svc.cluster.local:8000

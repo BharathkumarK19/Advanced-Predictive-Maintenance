@@ -8,12 +8,14 @@ Author: Bharath Karanam
 """
 
 from __future__ import annotations
-
+import os
 import random
 from datetime import datetime
 from typing import Dict
-
-
+import logging
+ANOMALY_PROBABILITY = float(
+    os.getenv("ANOMALY_PROBABILITY", "0.10")
+)
 class SensorGenerator:
     """
     Simulates sensor telemetry for multiple industrial machines.
@@ -28,41 +30,58 @@ class SensorGenerator:
 
     def __init__(self):
 
-        self.machine_profiles = {
-            1: {
-                "model": "model1",
-                "age": 10,
-                "volt": 170,
-                "rotate": 450,
-                "pressure": 100,
-                "vibration": 38,
-            },
-            2: {
-                "model": "model2",
-                "age": 6,
-                "volt": 165,
-                "rotate": 470,
-                "pressure": 95,
-                "vibration": 35,
-            },
-            3: {
-                "model": "model3",
-                "age": 14,
-                "volt": 180,
-                "rotate": 430,
-                "pressure": 105,
-                "vibration": 42,
-            },
-            4: {
-                "model": "model4",
-                "age": 8,
-                "volt": 175,
-                "rotate": 460,
-                "pressure": 98,
-                "vibration": 37,
-            },
+      self.machine_profiles = {
+        1: {
+            "model": "model1",
+            "age": 10,
+            "volt": 170,
+            "rotate": 450,
+            "pressure": 100,
+            "vibration": 38,
+        },
+        2: {
+            "model": "model2",
+            "age": 6,
+            "volt": 165,
+            "rotate": 470,
+            "pressure": 95,
+            "vibration": 35,
+        },
+        3: {
+            "model": "model3",
+            "age": 14,
+            "volt": 180,
+            "rotate": 430,
+            "pressure": 105,
+            "vibration": 42,
+        },
+        4: {
+            "model": "model4",
+            "age": 8,
+            "volt": 175,
+            "rotate": 460,
+            "pressure": 98,
+            "vibration": 37,
+        },
+    }
+
+      self.machine_state = {}
+      self.machine_health = {}
+
+      INITIAL_HEALTH = float(
+        os.getenv("INITIAL_HEALTH", "100")
+    )
+
+      for machine_id, profile in self.machine_profiles.items():
+
+        self.machine_state[machine_id] = {
+            "volt": profile["volt"],
+            "rotate": profile["rotate"],
+            "pressure": profile["pressure"],
+            "vibration": profile["vibration"],
         }
 
+        self.machine_health[machine_id] = INITIAL_HEALTH
     # ---------------------------------------------------------
 
     def _normal_variation(self, value: float, variation: float):
@@ -85,7 +104,7 @@ class SensorGenerator:
         Only 10% probability.
         """
 
-        if random.random() < 0.10:
+        if random.random() < ANOMALY_PROBABILITY:
 
             anomaly = random.choice([
                 "vibration",
@@ -114,51 +133,95 @@ class SensorGenerator:
 
     def generate(self, machine_id: int):
 
-        if machine_id not in self.machine_profiles:
-            raise ValueError(
-                f"Unknown Machine ID : {machine_id}"
-            )
+      if machine_id not in self.machine_profiles:
+        raise ValueError(
+            f"Unknown Machine ID : {machine_id}"
+        )
 
-        profile = self.machine_profiles[machine_id]
+      profile = self.machine_profiles[machine_id]
+      state = self.machine_state[machine_id]
+      health = self.machine_health[machine_id]
 
-        reading = {
+      # Slowly wear the machine
+      health -= random.uniform(0.02, 0.08)
 
-            "machineID": machine_id,
+      health = max(0, health)
+      # ---------------------------------------------------------
+      # Maintenance Cycle
+# ---------------------------------------------------------
 
-            "volt": self._normal_variation(
-                profile["volt"],
-                3
-            ),
+      if health <= 20:
+        logger = logging.getLogger("maintanance")
+        logger.info(
+         "Maintenance completed for Machine %s",
+        machine_id
+        )
 
-            "rotate": self._normal_variation(
-                profile["rotate"],
-                6
-            ),
+        self.machine_health[machine_id] = 100.0
 
-            "pressure": self._normal_variation(
-                profile["pressure"],
-                2
-            ),
+        self.machine_state[machine_id] = {
 
-            "vibration": self._normal_variation(
-                profile["vibration"],
-                1.5
-            ),
+        "volt": profile["volt"],
 
-            "age": profile["age"],
+        "rotate": profile["rotate"],
 
-            "model": profile["model"],
+        "pressure": profile["pressure"],
 
-            "error_flag": 0,
+        "vibration": profile["vibration"]
 
-            "timestamp": datetime.utcnow().isoformat()
-        }
+    }
 
-        reading = self._inject_anomaly(reading)
+        health = 100.0
 
-        return reading
+        state = self.machine_state[machine_id]
 
+        self.machine_health[machine_id] = health
 
+    # ---------------------------------------------------------
+    # Gradually update machine state
+    # ---------------------------------------------------------
+
+      state["volt"] += random.uniform(-0.5, 0.5)
+
+      state["rotate"] += random.uniform(-1,1)
+      state["rotate"] -= (100 - health) * 0.05
+
+      state["pressure"] += random.uniform(-0.3, 0.3)
+      state["pressure"] += (100 - health) * 0.01
+      state["vibration"] += random.uniform(-0.2, 0.2)
+      # More wear = more vibration
+      state["vibration"] += (100 - health) * 0.02
+
+    # ---------------------------------------------------------
+    # Create telemetry reading
+    # ---------------------------------------------------------
+
+      reading = {
+
+        "machineID": machine_id,
+
+        "volt": round(state["volt"], 2),
+
+        "rotate": round(state["rotate"], 2),
+
+        "pressure": round(state["pressure"], 2),
+
+        "vibration": round(state["vibration"], 2),
+
+        "age": profile["age"],
+
+        "model": profile["model"],
+
+        "error_flag": 0,
+
+        "timestamp": datetime.utcnow().isoformat()
+
+    }
+
+    # Inject anomaly if required
+      reading = self._inject_anomaly(reading)
+      reading["health"] = round(health, 2)
+      return reading
 # -------------------------------------------------------------
 # Standalone Testing
 # -------------------------------------------------------------

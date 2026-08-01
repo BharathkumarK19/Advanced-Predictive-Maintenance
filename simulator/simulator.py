@@ -10,7 +10,7 @@ Author: Bharath Karanam
 """
 
 from __future__ import annotations
-
+import os
 import signal
 import sys
 import time
@@ -32,6 +32,9 @@ except ImportError:
 # ---------------------------------------------------------
 # Logger
 # ---------------------------------------------------------
+# ---------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------
 
 logging.basicConfig(
     level=logging.INFO,
@@ -39,7 +42,26 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger("device-simulator")
+# ---------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------
 
+# ---------------------------------------------------------
+# Configuration
+# ---------------------------------------------------------
+
+
+PUBLISH_INTERVAL = int(
+    os.getenv("PUBLISH_INTERVAL", "10")
+)
+
+NUM_MACHINES = int(
+    os.getenv("NUM_MACHINES", "4")
+)
+
+ANOMALY_PROBABILITY = float(
+    os.getenv("ANOMALY_PROBABILITY", "0.10")
+)
 
 # ---------------------------------------------------------
 # Device Simulator
@@ -63,6 +85,13 @@ class DeviceSimulator:
         logger.info("Industrial IoT Device Simulator Started")
         logger.info("=" * 70)
 
+        logger.info("Machines              : %s", NUM_MACHINES)
+        logger.info("Publish Interval      : %s sec", PUBLISH_INTERVAL)
+        logger.info("Anomaly Probability   : %.0f%%", ANOMALY_PROBABILITY * 100)
+        logger.info("MQTT Broker           : HiveMQ Cloud")
+
+        logger.info("=" * 70)
+
         self.mqtt.connect()
 
         # Give MQTT time to establish connection
@@ -72,7 +101,7 @@ class DeviceSimulator:
 
             try:
 
-                for machine_id in range(1, 5):
+                for machine_id in range(1, NUM_MACHINES + 1):
 
                     reading = self.generator.generate(machine_id)
 
@@ -83,14 +112,15 @@ class DeviceSimulator:
                     self.mqtt.publish(reading)
 
                     # Small gap between machine publishes
-                    time.sleep(1)
 
                 logger.info("=" * 70)
-                logger.info("Waiting for next telemetry cycle...")
+                logger.info(
+                    "Waiting %s seconds for next telemetry cycle...",
+                     PUBLISH_INTERVAL
+                      )
                 logger.info("=" * 70)
 
-                # Publish every 5 seconds
-                time.sleep(5)
+                time.sleep(PUBLISH_INTERVAL)
 
             except Exception as ex:
 
