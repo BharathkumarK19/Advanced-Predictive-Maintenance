@@ -1,426 +1,788 @@
-# 🏭 Advanced Predictive Maintenance Platform
+<p align="center">
+  <img src="assets/banner.png" alt="Advanced Predictive Maintenance Platform" width="100%">
+</p>
 
-### Real-Time Industrial IoT Predictive Maintenance using Machine Learning, MQTT, FastAPI, Kubernetes, Prometheus & Grafana
+<h1 align="center">
+🏭 Advanced Predictive Maintenance Platform
+</h1>
+
+<p align="center">
+An enterprise-style Industrial IoT platform that combines Machine Learning, MQTT, FastAPI, PostgreSQL, React, Docker, Kubernetes, Prometheus, and Grafana to detect equipment anomalies before machine failure.
+</p>
 
 <p align="center">
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi)
 ![React](https://img.shields.io/badge/React-Frontend-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?logo=postgresql)
 ![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-Orchestrated-326CE5?logo=kubernetes)
-![MQTT](https://img.shields.io/badge/MQTT-HiveMQ-660066)
-![Prometheus](https://img.shields.io/badge/Monitoring-Prometheus-E6522C?logo=prometheus)
-![Grafana](https://img.shields.io/badge/Visualization-Grafana-F46800?logo=grafana)
+![Prometheus](https://img.shields.io/badge/Prometheus-Monitoring-E6522C?logo=prometheus)
+![Grafana](https://img.shields.io/badge/Grafana-Visualization-F46800?logo=grafana)
+![MQTT](https://img.shields.io/badge/MQTT-HiveMQ-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 </p>
 
 ---
 
-## 📌 Overview
+# 🚀 Project Snapshot
 
-Advanced Predictive Maintenance Platform is a **cloud-native Industrial IoT solution** that performs **real-time anomaly detection and machine health monitoring** using live sensor data streamed through MQTT. The platform combines Machine Learning, containerization, orchestration, and observability to simulate a production-ready predictive maintenance system.
-
-The system continuously receives sensor readings from industrial machines, performs feature engineering, predicts anomalies using an Isolation Forest model, stores predictions in PostgreSQL, visualizes machine health through a React dashboard, and exposes operational metrics through Prometheus and Grafana.
-
----
-
-## 🎯 Project Objectives
-
-- Detect abnormal machine behaviour before equipment failure.
-- Simulate a real Industrial IoT environment.
-- Build a production-style Machine Learning deployment pipeline.
-- Demonstrate cloud-native deployment using Kubernetes.
-- Monitor the entire system using Prometheus and Grafana.
-- Store historical sensor readings and predictions for analysis.
+| Feature | Description |
+|----------|-------------|
+| 🤖 Machine Learning | Isolation Forest based anomaly detection |
+| 📡 Industrial IoT | MQTT sensor simulation with HiveMQ integration |
+| ⚡ Backend | FastAPI REST APIs with Swagger |
+| 💻 Frontend | React + TypeScript real-time dashboard |
+| 🗄 Database | PostgreSQL for telemetry & prediction history |
+| 🐳 Deployment | Docker + Kubernetes |
+| 📊 Monitoring | Prometheus metrics |
+| 📈 Visualization | Grafana dashboards |
+| 📦 Registry | GitHub Container Registry (GHCR) |
+| 🔄 Automation | One-click start/stop PowerShell scripts |
 
 ---
 
-## ✨ Key Highlights
+# 📑 Table of Contents
 
-- 🚀 Real-time Industrial IoT Predictive Maintenance Platform
-- 📡 Live MQTT sensor streaming using HiveMQ Cloud
-- 🤖 Isolation Forest-based anomaly detection
-- ⚙️ Online feature engineering pipeline
-- ⚡ FastAPI REST API with automatic prediction pipeline
-- 🗄 PostgreSQL storage for sensor history and prediction history
-- 📊 Interactive React dashboard for live monitoring
-- 🐳 Fully containerized using Docker
-- ☸️ Kubernetes deployment with Minikube
-- 📈 Prometheus metrics integration
-- 📉 Grafana dashboards for system monitoring
-- 🧪 Configurable Industrial IoT simulator with anomaly injection
-- 🔄 One-command startup and shutdown automation scripts
+- [Overview](#-overview)
+- [Why Predictive Maintenance?](#-why-predictive-maintenance)
+- [System Architecture](#-system-architecture)
+- [Key Features](#-key-features)
+- [Technology Stack](#-technology-stack)
+- [Machine Learning Pipeline](#-machine-learning-pipeline)
+- [Repository Structure](#-repository-structure)
+- [Installation](#-installation)
+- [Running the Platform](#-running-the-platform)
+- [Docker Deployment](#-docker-deployment)
+- [Kubernetes Deployment](#-kubernetes-deployment)
+- [API Documentation](#-api-documentation)
+- [Monitoring & Observability](#-monitoring--observability)
+- [Project Screenshots](#-project-screenshots)
+- [Results](#-results)
+- [Roadmap](#-roadmap)
+- [License](#-license)
 
 ---
-# 🏗️ System Architecture
 
-The Advanced Predictive Maintenance Platform is designed as a cloud-native, event-driven Industrial IoT system. It continuously streams machine telemetry through MQTT, performs real-time anomaly detection using Machine Learning, stores historical data, exposes REST APIs, and provides complete observability using Prometheus and Grafana.
+# 📖 Overview
+
+Predictive maintenance enables industries to anticipate machine failures before they occur by continuously analyzing sensor telemetry. Instead of performing maintenance on fixed schedules or reacting after failures, maintenance decisions are driven by data.
+
+This project demonstrates a complete production-style implementation of predictive maintenance by combining Industrial IoT, Machine Learning, modern web technologies, containerization, orchestration, and observability into a single platform.
+
+The system receives machine telemetry, detects anomalous operating conditions using an Isolation Forest model, stores prediction history in PostgreSQL, exposes REST APIs through FastAPI, visualizes operational status with a React dashboard, and monitors application health using Prometheus and Grafana.
+
+Unlike notebook-based machine learning projects, this repository focuses on building, deploying, and operating an AI application as a complete software platform.
 
 ---
 
-##  Architecture
+# ❓ Why Predictive Maintenance?
 
-> **(Professional Architecture Diagram Here)**
+Unexpected machine failures can result in:
 
+- Production downtime
+- Increased maintenance costs
+- Equipment damage
+- Safety risks
+- Reduced operational efficiency
+
+By continuously monitoring machine health and identifying anomalies early, organizations can perform maintenance proactively, reducing downtime and improving equipment reliability.
+
+---
+
+# 🏗 System Architecture
+
+<p align="center">
+  <img src="assets/architecture.png" alt="System Architecture" width="100%">
+</p>
+
+The platform is designed as a modular, production-style architecture where each component has a dedicated responsibility. Sensor telemetry is generated by an industrial simulator, processed by the backend, analyzed by a Machine Learning model, persisted in PostgreSQL, visualized through a React dashboard, and continuously monitored using Prometheus and Grafana.
+
+### Architecture Flow
+
+```text
+Industrial Machines
+        │
+        ▼
+ MQTT Sensor Simulator
+        │
+        ▼
+      HiveMQ
+        │
+        ▼
+ FastAPI Backend
+        │
+        ├─────────────► PostgreSQL
+        │
+        ▼
+ Isolation Forest
+        │
+        ▼
+ Risk Prediction
+        │
+        ▼
+ React Dashboard
+        │
+   ┌────┴────┐
+   ▼         ▼
+Prometheus  Grafana
 ```
-                    ┌────────────────────────────┐
-                    │   Industrial Machines      │
-                    │  (Sensor Simulator)        │
-                    └─────────────┬──────────────┘
-                                  │
-                           MQTT Messages
-                                  │
-                                  ▼
-                    ┌────────────────────────────┐
-                    │        HiveMQ Cloud        │
-                    │      MQTT Broker           │
-                    └─────────────┬──────────────┘
-                                  │
-                                  ▼
-                ┌─────────────────────────────────┐
-                │      FastAPI Prediction API      │
-                │                                 │
-                │ • MQTT Subscriber              │
-                │ • Feature Engineering          │
-                │ • Isolation Forest Prediction  │
-                │ • Risk Level Classification    │
-                │ • REST APIs                    │
-                │ • Prometheus Metrics           │
-                └─────────────┬──────────────────┘
-                              │
-                ┌─────────────┴──────────────┐
-                ▼                            ▼
-      ┌────────────────┐           ┌─────────────────┐
-      │ PostgreSQL DB  │           │ React Dashboard │
-      │                │           │                 │
-      │ Sensor History │           │ Live Monitoring │
-      │ Predictions    │           │ Machine Status  │
-      └────────────────┘           └─────────────────┘
-                                             │
-                              ┌──────────────┴─────────────┐
-                              ▼                            ▼
-                    ┌────────────────┐          ┌────────────────┐
-                    │ Prometheus     │          │ Grafana        │
-                    │ Metrics        │          │ Dashboards     │
-                    └────────────────┘          └────────────────┘
-```
 
 ---
 
-# Data Flow
+## Component Responsibilities
 
-The complete prediction pipeline follows these steps:
-
-1. The Industrial IoT Simulator generates realistic machine sensor readings.
-
-2. The simulator publishes telemetry to HiveMQ Cloud using MQTT.
-
-3. FastAPI subscribes to the MQTT topic and receives sensor data.
-
-4. Incoming data undergoes online feature engineering.
-
-5. The trained Isolation Forest model predicts whether the machine is operating normally or anomalously.
-
-6. A risk level is assigned based on the anomaly score.
-
-7. Sensor readings and prediction results are stored in PostgreSQL.
-
-8. The React dashboard retrieves historical predictions through REST APIs.
-
-9. Prometheus continuously scrapes backend metrics.
-
-10. Grafana visualizes system health and operational metrics.
+| Component | Responsibility |
+|-----------|----------------|
+| Industrial Simulator | Generates synthetic machine telemetry |
+| HiveMQ MQTT Broker | Transfers telemetry to backend |
+| FastAPI Backend | Receives sensor data, performs inference, exposes REST APIs |
+| Isolation Forest Model | Detects anomalous machine behavior |
+| PostgreSQL | Stores telemetry and prediction history |
+| React Dashboard | Displays real-time predictions and historical data |
+| Prometheus | Collects application metrics |
+| Grafana | Visualizes operational dashboards |
+| Kubernetes | Orchestrates and manages all services |
 
 ---
 
-# System Characteristics
+# 🧠 Machine Learning Pipeline
 
-- Event-Driven Architecture
-- Real-Time Streaming Pipeline
-- Machine Learning Inference Service
-- Cloud-Native Deployment
-- Containerized Microservices
-- Observability-First Design
-- Kubernetes Orchestration
-- Persistent Data Storage
+<p align="center">
+  <img src="assets/ml-pipeline.png" alt="Machine Learning Pipeline" width="95%">
+</p>
 
-# 📖 Project Overview
+The predictive model is based on the **Isolation Forest** algorithm, an unsupervised anomaly detection technique well suited for identifying abnormal machine behavior from multivariate sensor data.
 
-Unexpected equipment failures in industrial environments lead to production downtime, increased maintenance costs, and reduced operational efficiency. Traditional maintenance strategies such as reactive maintenance (repair after failure) and preventive maintenance (scheduled servicing) are often inefficient because they either react too late or replace healthy components unnecessarily.
+### Pipeline Workflow
 
-This project addresses these challenges by implementing a real-time Predictive Maintenance Platform capable of continuously monitoring machine telemetry, detecting abnormal behavior using Machine Learning, and providing actionable insights before failures occur.
+```text
+Sensor Telemetry
 
-Unlike traditional machine learning projects that focus only on model development, this project demonstrates the complete lifecycle of deploying an AI model into a production-style Industrial IoT environment.
+        │
 
-The platform simulates industrial sensor data, streams it through MQTT, performs online feature engineering, predicts anomalies using an Isolation Forest model, stores historical information in PostgreSQL, visualizes machine health through a React dashboard, and exposes operational metrics through Prometheus and Grafana.
+        ▼
 
-The result is a complete cloud-native Predictive Maintenance solution built using modern DevOps, MLOps, and cloud-native technologies.
+Data Preprocessing
 
-# ✨ Features
+        │
 
-## Industrial IoT
+        ▼
 
-- Industrial machine simulator
-- Real-time MQTT communication
-- HiveMQ Cloud integration
-- Configurable machine profiles
-- Configurable anomaly generation
-- Configurable publishing interval
-
----
-
-## Machine Learning
-
-- Isolation Forest anomaly detection
-- Online feature engineering
-- Rolling statistics
-- Lag features
-- Percentage change features
-- Z-score features
-- Machine health risk classification
-
----
-
-## Backend
-
-- FastAPI REST API
-- MQTT subscriber
-- Automatic prediction pipeline
-- Prediction history API
-- Health endpoint
-- Prometheus metrics endpoint
-
----
-
-## Database
-
-- PostgreSQL
-- Sensor history storage
-- Prediction history storage
-- Risk level persistence
-
----
-
-## Frontend
-
-- React Dashboard
-- Live machine monitoring
-- Historical predictions
-- Machine status visualization
-
----
-
-## DevOps
-
-- Docker
-- Kubernetes
-- Minikube
-- PowerShell automation
-
----
-
-## Monitoring
-
-- Prometheus
-- Grafana
-- HTTP metrics
-- Prediction metrics
-- Anomaly metrics
-
-# 🛠 Technology Stack
-
-| Category | Technologies |
-|-----------|--------------|
-| Programming Language | Python 3.11 |
-| Machine Learning | Scikit-learn (Isolation Forest) |
-| Backend | FastAPI |
-| Frontend | React |
-| Database | PostgreSQL |
-| Messaging | MQTT (HiveMQ Cloud) |
-| Containerization | Docker |
-| Orchestration | Kubernetes (Minikube) |
-| Monitoring | Prometheus |
-| Visualization | Grafana |
-| API Documentation | Swagger UI |
-| Version Control | Git & GitHub |
-
-# 📂 Repository Structure
-
-```
-Advanced-Predictive-Maintenance/
-
-├── api/
-├── frontend/
-├── simulator/
-├── models/
-├── monitoring/
-│   ├── grafana/
-│   ├── prometheus.yml
-│   ├── prometheus-deployment.yaml
-│   └── prometheus-service.yaml
-├── deployment/
-├── scripts/
-│   ├── start_project.ps1
-│   └── stop_project.ps1
-├── notebooks/
-├── requirements.txt
-├── README.md
-└── LICENSE
-```
-# 🤖 Machine Learning Pipeline
-
-The prediction pipeline performs the following operations for every incoming sensor reading:
-
-1. Receive MQTT message
-2. Validate incoming payload
-3. Apply online feature engineering
-4. Normalize input features
-5. Perform Isolation Forest inference
-6. Compute anomaly score
-7. Assign anomaly label
-8. Calculate machine risk level
-9. Store results in PostgreSQL
-10. Update dashboard
-11. Update Prometheus metrics
-
-# 🔄 System Workflow
-
-```
-Simulator
-      │
-      ▼
-HiveMQ Cloud
-      │
-      ▼
-FastAPI
-      │
 Feature Engineering
-      │
+
+        │
+
+        ▼
+
+Feature Scaling
+
+        │
+
+        ▼
+
 Isolation Forest
-      │
-Risk Level
-      │
- ┌────┴────┐
- ▼         ▼
-Database  Dashboard
-      │
- ┌────┴─────┐
- ▼          ▼
-Prometheus Grafana
+
+        │
+
+        ▼
+
+Anomaly Score
+
+        │
+
+        ▼
+
+Risk Classification
+
+        │
+
+        ▼
+
+Database Storage
+
+        │
+
+        ▼
+
+Dashboard Visualization
 ```
-# 🌐 REST APIs
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| /api/health | GET | API health check |
-| /api/history/{machine_id} | GET | Machine prediction history |
-| /metrics | GET | Prometheus metrics |
-| /docs | GET | Swagger API documentation |
+---
 
-# 📈 Monitoring & Observability
+## Sensor Features
 
-The platform exposes operational metrics using Prometheus.
+The model analyzes multiple operational parameters:
 
-Collected metrics include:
+- Voltage
+- Rotation Speed
+- Pressure
+- Vibration
+- Machine Age
+- Machine Model
+- Rolling Statistics
+- Lag Features
+- Percentage Change Features
+- Z-score Features
 
-- HTTP Requests
-- Request Duration
-- Prediction Requests
-- Anomaly Predictions
+---
 
-Grafana provides dashboards for:
+## Model Output
 
-- Prediction throughput
-- HTTP requests
-- API latency
-- System monitoring
+The model predicts:
 
-# 🚀 Installation
+| Output | Description |
+|---------|-------------|
+| Anomaly Score | Continuous anomaly score |
+| Anomaly Label | Normal / Anomaly |
+| Risk Level | Low / Medium / High |
+
+---
+
+# 🔄 End-to-End Workflow
+
+<p align="center">
+  <img src="assets/workflow.png" alt="Project Workflow" width="100%">
+</p>
+
+The platform operates through the following workflow:
+
+1. Industrial machines generate sensor telemetry.
+2. The MQTT simulator publishes telemetry.
+3. HiveMQ forwards messages to the backend.
+4. FastAPI validates incoming data.
+5. The Isolation Forest model predicts anomalies.
+6. Risk levels are calculated.
+7. Sensor readings and predictions are stored in PostgreSQL.
+8. REST APIs expose the latest machine status.
+9. The React dashboard visualizes predictions.
+10. Prometheus collects operational metrics.
+11. Grafana provides monitoring dashboards.
+
+---
+
+# 📥 Installation
+
+## Prerequisites
+
+Ensure the following software is installed on your system:
+
+| Software | Version |
+|-----------|---------|
+| Python | 3.11+ |
+| Node.js | 20+ |
+| Docker Desktop | Latest |
+| Kubernetes | Minikube |
+| Git | Latest |
+| PostgreSQL | 17+ (Optional for local development) |
+
+---
 
 ## Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/BharathkumarK19/Advanced-Predictive-Maintenance.git
+
 cd Advanced-Predictive-Maintenance
 ```
 
-## Build Images
+---
+
+## Backend Setup
 
 ```bash
-docker build ...
+python -m venv llmenv
+
+# Windows
+llmenv\Scripts\activate
+
+# Linux / macOS
+source llmenv/bin/activate
+
+pip install -r requirements/all.txt
 ```
 
-## Deploy Kubernetes
+---
+
+## Frontend Setup
 
 ```bash
-kubectl apply -f deployment/
+cd frontend
+
+npm install
 ```
 
-## Start Project
+---
+
+## Environment Variables
+
+Create a `.env` file in the project root.
+
+Example:
+
+```env
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/predictive_maintenance
+
+MODEL_PATH=models/isolation_forest.pkl
+
+FEATURE_PATH=models/features.pkl
+
+SCALER_PATH=models/scaler.pkl
+
+MQTT_BROKER=broker.hivemq.com
+
+MQTT_PORT=1883
+```
+---
+
+# 🚀 Running the Platform
+
+The repository provides automation scripts to start and stop the complete platform.
+
+## Start Everything
 
 ```powershell
 .\scripts\start_project.ps1
 ```
 
-## Stop Project
+This script automatically starts:
+
+- PostgreSQL
+- Backend API
+- Frontend Dashboard
+- Prometheus
+- Grafana
+- Port Forwarding
+
+---
+
+## Check Status
+
+```powershell
+.\scripts\status_project.ps1
+```
+
+---
+
+## Restart
+
+```powershell
+.\scripts\restart_project.ps1
+```
+
+---
+
+## Stop Everything
 
 ```powershell
 .\scripts\stop_project.ps1
 ```
-# ✅ Testing
 
-The platform has been validated for:
+All running services and Kubernetes port-forward processes will be terminated automatically.
+---
 
-- MQTT communication
-- Machine learning inference
-- PostgreSQL persistence
-- REST APIs
-- Kubernetes deployment
-- Docker containers
+# 🌐 Application URLs
+
+| Service | URL |
+|-----------|-----|
+| Frontend Dashboard | http://localhost:5173 |
+| FastAPI | http://localhost:8000 |
+| Swagger UI | http://localhost:8000/docs |
+| ReDoc | http://localhost:8000/redoc |
+| Prometheus | http://localhost:9090 |
+| Grafana | http://localhost:3002 |
+---
+
+# 🐳 Docker Deployment
+
+Build the backend image:
+
+```bash
+docker build -t predictive-backend:latest .
+```
+
+Build the frontend image:
+
+```bash
+cd frontend
+
+docker build -t predictive-frontend:latest .
+```
+
+Images are also published to GitHub Container Registry (GHCR).
+---
+
+# ☸ Kubernetes Deployment
+
+Start Minikube:
+
+```bash
+minikube start
+```
+
+Deploy all resources:
+
+```bash
+kubectl apply -f k8s/
+```
+
+Deploy monitoring:
+
+```bash
+kubectl apply -f monitoring/
+```
+
+Verify:
+
+```bash
+kubectl get pods -n predictive-maintenance
+```
+---
+
+# 📡 REST API
+
+| Method | Endpoint | Description |
+|----------|----------|-------------|
+| GET | /api/health | Service health |
+| POST | /api/predict | Predict machine risk |
+| GET | /api/history/{machine_id} | Prediction history |
+| GET | /metrics | Prometheus metrics |
+
+# 📂 Repository Structure
+
+The repository is organized into modular components to separate machine learning, backend services, frontend development, infrastructure, and deployment resources.
+
+```text
+Advanced-Predictive-Maintenance
+│
+├── api/                    # FastAPI backend and REST API implementation
+├── deployment/             # Dockerfiles and deployment configurations
+├── frontend/               # React + TypeScript dashboard
+├── k8s/                    # Kubernetes manifests
+├── logs/                   # Runtime application logs
+├── models/                 # Trained ML models and preprocessing artifacts
+├── monitoring/             # Prometheus & Grafana configurations
+├── reports/                # Experiment tracking and evaluation results
+├── requirements/           # Dependency groups
+├── scripts/                # Project automation scripts
+├── simulator/              # MQTT telemetry simulator
+├── src/                    # ML training & feature engineering pipeline
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+## Directory Description
+
+| Directory | Purpose |
+|------------|---------|
+| **api/** | FastAPI backend exposing prediction, monitoring, and history APIs |
+| **frontend/** | React dashboard for machine health visualization and analytics |
+| **src/** | Machine Learning pipeline including preprocessing, feature engineering, training, and evaluation |
+| **models/** | Saved Isolation Forest model, scaler, and feature metadata |
+| **simulator/** | MQTT-based Industrial IoT sensor simulator |
+| **k8s/** | Kubernetes namespace, deployments, services, ConfigMaps, Secrets, and ingress |
+| **monitoring/** | Prometheus configuration, Grafana deployment, dashboards, and monitoring resources |
+| **deployment/** | Docker-related deployment files |
+| **scripts/** | PowerShell automation scripts for starting, stopping, restarting, and monitoring the platform |
+| **reports/** | Model evaluation results and experiment tracking |
+| **requirements/** | Modular dependency files for backend, ML, API, development, and runtime environments |
+| **logs/** | Runtime logs generated by the application |
+
+---
+
+## Project Components
+
+### 🤖 Machine Learning
+
+- Data preprocessing
+- Feature engineering
+- Isolation Forest training
+- Model evaluation
+- Risk classification
+
+---
+
+### ⚡ Backend
+
+- FastAPI REST API
+- Model inference
+- Prediction history
+- Health monitoring
 - Prometheus metrics
-- Grafana dashboards
-- End-to-end real-time prediction pipeline
-# 📊 Results
 
-The platform successfully demonstrates:
+---
 
-- Real-time Industrial IoT simulation
-- Streaming anomaly detection
-- Automated feature engineering
-- Persistent prediction history
-- Cloud-native deployment
-- Live monitoring
-- Automated startup and shutdown
-# 🚀 Future Enhancements
+### 💻 Frontend
 
-- JWT Authentication
-- Role-Based Access Control
-- Email Alerts
-- SMS Notifications
-- Redis Cache
-- Apache Kafka Integration
-- CI/CD Pipeline
-- Helm Charts
-- Cloud Deployment (GKE, AKS, EKS)
-- Automatic Model Retraining
+- React + TypeScript
+- Interactive Dashboard
+- Machine Monitoring
+- Historical Analytics
+- Live Prediction Visualization
+
+---
+
+### 📡 Industrial IoT
+
+- MQTT Simulator
+- HiveMQ Cloud Integration
+- Real-time Sensor Telemetry
+
+---
+
+### ☸ Infrastructure
+
+- Docker
+- Kubernetes
+- PostgreSQL
+- Prometheus
+- Grafana
+- GitHub Container Registry (GHCR)
+
+---
+
+# 📸 Project Screenshots
+
+The following screenshots demonstrate the major components of the platform, including the user interface, monitoring stack, machine learning workflow, and deployment architecture.
+
+---
+
+## 🖥 Dashboard
+
+The React dashboard provides real-time visibility into machine health, prediction results, historical trends, and operational metrics.
+
+<p align="center">
+  <img src="assets/dashboard.png" alt="Dashboard" width="100%">
+</p>
+
+---
+
+## 🏗 System Architecture
+
+The platform follows a modular cloud-native architecture integrating Industrial IoT, Machine Learning, containerized services, and observability.
+
+<p align="center">
+  <img src="assets/architecture.png" alt="System Architecture" width="100%">
+</p>
+
+---
+
+## 🧠 Machine Learning Pipeline
+
+The ML pipeline performs preprocessing, feature engineering, anomaly detection, and risk classification before persisting predictions.
+
+<p align="center">
+  <img src="assets/ml-pipeline.png" alt="Machine Learning Pipeline" width="100%">
+</p>
+
+---
+
+## 🔄 End-to-End Workflow
+
+This workflow illustrates how telemetry flows through the complete system—from sensor simulation to visualization and monitoring.
+
+<p align="center">
+  <img src="assets/workflow.png" alt="Workflow" width="100%">
+</p>
+
+---
+
+## ☸ Kubernetes Deployment
+
+The application is deployed using Kubernetes with separate deployments, services, ConfigMaps, Secrets, and persistent storage.
+
+<p align="center">
+  <img src="assets/kubernetes.png" alt="Kubernetes Architecture" width="100%">
+</p>
+
+---
+
+## 📊 Monitoring & Observability
+
+Prometheus collects application metrics while Grafana provides dashboards for operational monitoring and performance analysis.
+
+<p align="center">
+  <img src="assets/monitoring.png" alt="Monitoring Dashboard" width="100%">
+</p>
+---
+
+---
+
+# 📊 Results & Performance
+
+The Machine Learning model was iteratively improved through multiple rounds of feature engineering, hyperparameter tuning, and anomaly detection experiments using the Microsoft Azure Predictive Maintenance Dataset.
+
+---
+
+## 📈 Model Evolution
+
+| Experiment | Features | Contamination | Detection Rate | Average Lead Time |
+|------------|----------|---------------|---------------:|------------------:|
+| Baseline | Current Features | 0.01 | **44.68%** | **7.41 hrs** |
+| Experiment 1 | Current Features | 0.02 | **61.50%** | **6.93 hrs** |
+| Experiment 2 | Current Features | 0.03 | **74.11%** | **6.69 hrs** |
+| **Experiment 3 (Final)** | **+ Z-Score + Trend Features** | **0.03** | **91.98%** | **7.90 hrs** |
+
+---
+
+## 🚀 Performance Improvement
+
+Compared to the baseline model, the final implementation achieved:
+
+- 📈 **Detection Rate Improved:** **44.68% → 91.98%**
+- 📊 **Performance Gain:** **+47.30 percentage points**
+- 🤖 Improved anomaly detection using **Z-Score** and **Trend-based Feature Engineering**
+- ⚡ Maintained early warning capability with an average lead time of approximately **8 hours**
+
+---
+
+## 📊 Machine Learning Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Algorithm | Isolation Forest |
+| Learning Type | Unsupervised Anomaly Detection |
+| Dataset | Microsoft Azure Predictive Maintenance Dataset |
+| Feature Engineering | Rolling Statistics, Lag Features, Difference Features, Percentage Change, Z-Score, Trend Features |
+| Model Persistence | Pickle |
+| Experiment Tracking | reports/experiments.csv |
+
+---
+
+## ⚙️ Production Validation
+
+The complete platform was validated by successfully verifying:
+
+- ✅ Real-time telemetry simulation
+- ✅ Machine Learning inference
+- ✅ Risk prediction API
+- ✅ PostgreSQL data persistence
+- ✅ Historical prediction retrieval
+- ✅ React dashboard visualization
+- ✅ Prometheus metrics collection
+- ✅ Grafana monitoring dashboards
+- ✅ Kubernetes deployment
+- ✅ Docker containerization
+- ✅ Automated project startup & shutdown scripts
+
+---
+
+## 🎯 Project Outcomes
+
+This project evolved from a standalone Machine Learning notebook into a complete production-style Industrial IoT platform.
+
+Major milestones achieved include:
+
+- Built an end-to-end predictive maintenance pipeline
+- Designed a FastAPI backend for real-time inference
+- Developed a React dashboard for visualization
+- Integrated PostgreSQL for historical prediction storage
+- Containerized services with Docker
+- Deployed the platform on Kubernetes
+- Implemented Prometheus metrics collection
+- Designed Grafana monitoring dashboards
+- Automated deployment using PowerShell scripts
+- Published container images to GitHub Container Registry (GHCR)
+---
+
+# 📊 Monitoring & Observability
+
+The platform includes an integrated monitoring stack for observing application health, API performance, and machine learning inference metrics.
+
+<p align="center">
+  <img src="assets/monitoring.png" alt="Monitoring Stack" width="100%">
+</p>
+
+## Prometheus
+
+Prometheus continuously scrapes metrics exposed by the FastAPI backend through the `/metrics` endpoint.
+
+### Collected Metrics
+
+- Total HTTP Requests
+- Prediction Requests
+- Anomaly Prediction Counter
+- Request Duration Histogram
+- Process CPU Usage
+- Process Memory Usage
+- Python Runtime Metrics
+
+---
+
+## Grafana
+
+Grafana visualizes Prometheus metrics using interactive dashboards.
+
+### Dashboard Panels
+
+- API Health
+- Prediction Requests
+- Anomaly Detection Count
+- Request Latency
+- CPU Usage
+- Memory Usage
+- Active Services
+
+---
+
+## Production Benefits
+
+- Real-time application monitoring
+- Early detection of failures
+- Performance analysis
+- Operational visibility
+- Production-ready observability
+---
+
+# 🛣️ Future Roadmap
+
+The project is designed to be extensible. Planned enhancements include:
+
+- Azure IoT Hub integration
+- MLflow experiment tracking and model registry
+- CI/CD pipeline with GitHub Actions
+- Email and SMS alerting
+- Role-Based Access Control (RBAC)
+- Multi-machine fleet management
+- Time-series forecasting using LSTM/Transformers
+- Cloud deployment on AWS, Azure, or Google Cloud
+- Digital Twin visualization
+- Edge deployment for on-premise inference
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+If you would like to improve this project:
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Commit your changes.
+4. Push your branch.
+5. Open a Pull Request.
+
+Please ensure that new features include appropriate documentation and follow the existing project structure.
+---
+
+# 📄 License
+
+This project is licensed under the **MIT License**.
+
+See the `LICENSE` file for more information.
+---
 
 # 👨‍💻 Author
 
 **Bharath Karanam**
 
-AI / ML Engineer
+AI/ML Engineer | MLOps | Full-Stack Developer | Industrial IoT Enthusiast
 
-Specializations
-
-- Machine Learning
-- Deep Learning
-- NLP
-- MLOps
-- Generative AI
-- Cloud-Native AI Systems
-# 📜 License
-
-This project is licensed under the MIT License.
+- 💼 GitHub: https://github.com/BharathkumarK19
+- 💬 LinkedIn: https://www.linkedin.com/in/bharath-karanam-00731428b/
+- 📧 Email: bharathkaranam19@gmail.com
